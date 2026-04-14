@@ -1,0 +1,54 @@
+---
+layout: default
+---
+
+<div class="wrapper">
+  <section class="hero">
+    <h1>Hi, I'm EngineerX96 👋</h1>
+    <p>这里记录我的技术探索、学习笔记与个人思考，欢迎一起交流。</p>
+    <a class="btn" href="#posts">查看文章</a>
+    <a class="btn btn-ghost" href="{{ '/about' | relative_url }}">了解我</a>
+  </section>
+
+  <section class="section" id="posts">
+    <div class="section-title">最新分享</div>
+    <div class="post-list">
+      {% for post in paginator.posts %}
+      <article class="post-card">
+        <div class="post-card-meta">
+          <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+          {% for tag in post.tags %}
+            <span class="tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+        {% if post.excerpt %}
+        <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
+        {% endif %}
+      </article>
+      {% endfor %}
+    </div>
+
+    {% if paginator.total_pages > 1 %}
+    <div class="pagination">
+      {% if paginator.previous_page %}
+        <a href="{{ paginator.previous_page_path | relative_url }}">&laquo;</a>
+      {% endif %}
+
+      {% for i in (1..paginator.total_pages) %}
+        {% if i == paginator.page %}
+          <span class="current">{{ i }}</span>
+        {% elsif i == 1 %}
+          <a href="{{ '/' | relative_url }}">{{ i }}</a>
+        {% else %}
+          <a href="{{ site.paginate_path | replace: ':num', i | relative_url }}">{{ i }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if paginator.next_page %}
+        <a href="{{ paginator.next_page_path | relative_url }}">&raquo;</a>
+      {% endif %}
+    </div>
+    {% endif %}
+  </section>
+</div>
